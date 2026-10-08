@@ -1,355 +1,499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#7b3f98">
-<title>PSV Tahun 5 — Teknik Mozek</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sains Tahun 4 — Manusia: Pernafasan & Penyahtinjaan</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
 :root{
-  --purple:#6f3b8f;--purple2:#8d55aa;--gold:#f4c542;--ink:#25242b;
-  --muted:#6e6a72;--paper:#fffdf8;--line:#e6ddd1;--green:#1b8b69;
-  --red:#d94b4b;--shadow:0 12px 32px rgba(45,31,48,.12)
+ --bg:#f5f8ff;--card:#fff;--ink:#17324d;--muted:#5e7488;--blue:#2f80ed;
+ --cyan:#27aecc;--green:#27ae60;--orange:#f2994a;--red:#eb5757;--purple:#7b61ff;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:"DM Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
-background:#eee7df url("karya-mozek-rekaan.jpeg") center/cover fixed;background-blend-mode:soft-light}
-button{font:inherit}
-.app{max-width:1000px;margin:auto;background:rgba(250,248,243,.96);min-height:100vh}
-.top{padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(100deg,#fff,#fff8df,#f1e6f5);display:flex;justify-content:space-between;align-items:center;gap:15px}
-.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:14px;background:var(--purple);color:#fff;display:grid;place-items:center;font-size:25px;box-shadow:0 5px 0 #4e2866}.brand small{display:block;letter-spacing:2px;font-weight:900;color:#777}.brand b{font-size:18px}.sound{border:1px solid #ddd4ca;background:#fff;border-radius:999px;padding:10px 15px;font-weight:900;cursor:pointer}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#173b70,#2478d8);color:#fff;padding:18px 14px 22px}
+.wrap{max-width:1380px;margin:auto}
+.badge{display:inline-block;background:#ffffff22;border:1px solid #ffffff44;padding:4px 9px;border-radius:99px;font-size:11px}
+h1{font-size:clamp(23px,4vw,38px);margin:8px 0 4px;line-height:1.05}
+.subtitle{opacity:.9;font-size:13px}
+nav{position:sticky;top:0;z-index:5;background:#ffffffee;backdrop-filter:blur(10px);border-bottom:1px solid #dfe7ef}
+.navin{display:flex;gap:5px;overflow:auto;padding:6px 10px;max-width:1180px;margin:auto}
+nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:700;font-size:12px;padding:7px 9px;border-radius:8px}
+nav a:hover{background:#eaf2ff}
+main{padding:12px 10px 28px}
+.card{background:var(--card);border:1px solid #e0e8f1;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 5px 16px #16324d0b}
+h2{margin-top:0;font-size:20px;line-height:1.2}
+h3{margin-bottom:6px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px}
+.info{padding:10px;border-radius:11px;background:#f7faff;border-left:5px solid var(--blue)}
+.info.green{border-left-color:var(--green)} .info.orange{border-left-color:var(--orange)}
+button{border:0;border-radius:9px;padding:8px 11px;font-weight:800;font-size:12px;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#e9f1fb;color:var(--ink)}
+button.green{background:var(--green)} button.orange{background:var(--orange)}
+.controls{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.sim{background:#10283d;color:#fff;border-radius:14px;padding:12px;overflow:hidden;max-width:1240px;margin:auto}
+.sim h2,.sim h3{color:#fff}
+.lungs{height:280px;display:flex;align-items:center;justify-content:center;gap:22px;position:relative}
+.lung{width:105px;height:145px;background:#ef6b73;border-radius:55% 45% 48% 52%;box-shadow:inset -12px -15px 20px #b63f4c88;transition:.8s}
+.lung.left{transform-origin:right center}.lung.right{transform-origin:left center}
+.lungs.breathe .lung{transform:scaleY(1.13) scaleX(1.08)}
+.trachea{position:absolute;top:20px;width:18px;height:110px;background:#d9b5a0;border-radius:10px}
+.branch{position:absolute;width:75px;height:10px;background:#d9b5a0;border-radius:10px;top:118px}
+.branch.l{transform:rotate(35deg);left:calc(50% - 78px)}.branch.r{transform:rotate(-35deg);right:calc(50% - 78px)}
+.air{height:13px;background:#42d7ff;border-radius:20px;position:absolute;top:24px;left:calc(50% - 6px);width:12px;opacity:0}
+.lungs.breathe .air{animation:air 1.2s infinite}
+.organ-stage{height:330px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border-radius:18px;background:radial-gradient(circle at 50% 42%,#183e59,#0b2032 70%);margin:4px 0 12px}
+.human-svg{width:min(680px,100%);height:100%;overflow:visible}
+.human-svg .lung{transform-box:fill-box;transform-origin:center;transition:transform .75s cubic-bezier(.2,.8,.2,1)}
+.human-svg .lung.left{transform-origin:90% 50%}.human-svg .lung.right{transform-origin:10% 50%}
+.organ-stage.breathe .lung.left{transform:scale(1.09,1.12)}
+.organ-stage.breathe .lung.right{transform:scale(1.09,1.12)}
+.air-particles circle{opacity:.15;transition:.4s}
+.organ-stage.breathe .air-particles circle{opacity:1;animation:airFloat 1.1s infinite alternate}
+.organ-stage.breathe .air-particles circle:nth-child(2){animation-delay:.2s}
+.organ-stage.breathe .air-particles circle:nth-child(3){animation-delay:.35s}
+.organ-stage.breathe .air-particles circle:nth-child(4){animation-delay:.5s}
+@keyframes airFloat{from{transform:translateY(0);opacity:.35}to{transform:translateY(58px);opacity:1}}
+.organ-caption{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:#061522cc;border:1px solid #ffffff22;padding:7px 14px;border-radius:99px;font-size:13px;color:#dff7ff;white-space:nowrap}
+.organ-caption span{font-size:16px}
 
-/* Laman Apresiasi Seni Visual — artistic mosaic header */
-.top{position:relative;overflow:hidden;min-height:102px;padding:18px 22px 20px;border-bottom:0;
-background:linear-gradient(105deg,#fffdf7 0%,#f7efe3 52%,#eee3f5 100%);}
-.top:after{content:"";position:absolute;right:-28px;top:-36px;width:210px;height:170px;
-background:
-linear-gradient(135deg,transparent 48%,rgba(111,59,143,.18) 49% 67%,transparent 68%),
-linear-gradient(35deg,transparent 45%,rgba(244,197,66,.34) 46% 68%,transparent 69%),
-linear-gradient(160deg,transparent 46%,rgba(39,143,125,.20) 47% 70%,transparent 71%);
-transform:rotate(8deg);opacity:.9;pointer-events:none}
-.brand{position:relative;z-index:2;display:flex;align-items:center;gap:15px}
-.logo{width:58px;height:58px;border-radius:17px;background:linear-gradient(145deg,#7b419a,#59316f);color:#fff;
-display:grid;place-items:center;font-size:28px;box-shadow:0 6px 0 #452452,0 12px 25px rgba(78,40,102,.18);border:2px solid rgba(255,255,255,.75)}
-.brand small{display:block;letter-spacing:.4px;font-family:"Playfair Display",Georgia,serif;font-size:19px;font-weight:800;color:#3e3342}
-.brand b{display:block;margin-top:2px;font-size:12px;letter-spacing:3px;color:#7b6e78;font-weight:800}
-.sound{position:relative;z-index:3;border:1px solid #ddd4ca;background:rgba(255,255,255,.9);border-radius:999px;padding:11px 17px;font-weight:800;cursor:pointer;box-shadow:0 5px 15px rgba(50,35,50,.08)}
+@keyframes air{0%{top:20px;opacity:0}35%{opacity:1}100%{top:155px;opacity:0}}
+.readout{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.read{background:#ffffff12;border:1px solid #ffffff1f;border-radius:9px;padding:8px;text-align:center;font-size:11px}
+.read strong{display:block;font-size:18px;color:#6ee7ff;margin:2px 0}
+.bar{height:10px;background:#ffffff1a;border-radius:20px;overflow:hidden;margin:8px 0 14px}
+.fill{height:100%;width:50%;background:#42d7ff;border-radius:20px;transition:.5s}
 
-.hero{padding:32px 22px 20px;background:linear-gradient(130deg,rgba(255,255,255,.96),rgba(255,249,220,.9));border-bottom:1px solid var(--line)}
-.kicker{font-size:12px;letter-spacing:2.4px;color:var(--purple);font-weight:800}.hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(42px,8vw,68px);line-height:.95;margin:10px 0 12px;letter-spacing:-2px;font-weight:800}.hero h1 span{color:var(--purple)}.hero p{margin:0;color:#68636a;max-width:720px}
-.score{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;box-shadow:var(--shadow)}.score div{display:flex;align-items:center;gap:9px}.coin{width:35px;height:35px;border-radius:50%;background:#fff0a9;display:grid;place-items:center}.score b{font-size:20px}.score small{color:var(--muted)}
-.tabs{display:flex;gap:8px;margin-top:15px;overflow:auto}.tab{border:0;border-radius:14px;background:#eae5e9;color:#5c5361;padding:13px 15px;font-weight:900;cursor:pointer;min-width:145px}.tab.active{background:#fff;box-shadow:var(--shadow);color:var(--purple)}.tab em{font-style:normal;background:#ddd4e2;padding:3px 7px;border-radius:8px;margin-right:5px;font-size:11px}.tab.active em{background:var(--purple);color:#fff}
 
-/* Knowledge panel */
-.knowledge{position:relative;overflow:hidden;margin:0 22px 4px;background:rgba(255,253,248,.97);
-border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
-.knowledge:before{content:"";position:absolute;right:-35px;top:-45px;width:170px;height:170px;
-background:conic-gradient(from 20deg,#7b3f98 0 14%,#f4c542 14% 29%,#4fae91 29% 44%,#e76f51 44% 58%,#5d93c7 58% 72%,#d66c9f 72% 86%,#e0a83a 86% 100%);
-clip-path:polygon(50% 0,94% 22%,100% 68%,66% 100%,18% 88%,0 45%);opacity:.13}
-.knowledge-head{position:relative;display:flex;justify-content:space-between;gap:15px;align-items:end;margin-bottom:15px}
-.knowledge-head .eyebrow{font-size:11px;letter-spacing:2px;font-weight:800;color:var(--purple)}
-.knowledge-head h2{font-family:"Playfair Display",Georgia,serif;font-size:29px;margin:5px 0 0}
-.knowledge-head p{margin:0;color:var(--muted);font-size:13px;max-width:480px}
-.knowledge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
-.know-card{position:relative;background:#fff;border:1px solid #e8ded3;border-radius:17px;padding:15px;min-height:150px;overflow:hidden}
-.know-card:after{content:"";position:absolute;right:-18px;bottom:-20px;width:58px;height:58px;transform:rotate(18deg);
-background:var(--tile,#f4c542);opacity:.17;clip-path:polygon(14% 0,100% 20%,82% 100%,0 72%)}
-.know-icon{width:72px;height:52px;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:#f4ecf7;margin-bottom:10px;border:1px solid rgba(111,59,143,.12);box-shadow:0 4px 12px rgba(45,31,48,.08)}.know-icon img{width:100%;height:100%;display:block;object-fit:cover}
-.know-card:nth-child(2) .know-icon{background:#fff5d0}.know-card:nth-child(3) .know-icon{background:#e6f5ef}.know-card:nth-child(4) .know-icon{background:#fce9e5}
-.know-card h3{font-size:15px;margin:0 0 7px}.know-card p{font-size:12px;line-height:1.55;color:#68636a;margin:0}
-.know-card ul{padding-left:17px;margin:7px 0 0;color:#68636a;font-size:12px;line-height:1.6}
-.tech-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:12px}
-.tech-step{background:#f8f3ec;border-radius:12px;padding:9px 8px;text-align:center;font-size:11px;font-weight:800;color:#5c505a}
-.tech-step span{display:block;font-size:17px;margin-bottom:3px}
-@media(max-width:760px){.knowledge-grid{grid-template-columns:1fr 1fr}.tech-strip{grid-template-columns:repeat(5, minmax(80px,1fr));overflow:auto}.knowledge-head{display:block}.knowledge-head p{margin-top:6px}}
-@media(max-width:650px){.knowledge{margin-left:15px;margin-right:15px;padding:17px}.knowledge-grid{grid-template-columns:1fr}.brand small{font-size:16px}.brand b{font-size:10px;letter-spacing:2px}.logo{width:52px;height:52px}}
 
-main{padding:20px 22px 55px}.mission{display:none}.mission.active{display:block}.head{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);margin-bottom:15px}.tag{color:var(--purple);font-size:11px;letter-spacing:1.6px;font-weight:1000}.head h2{font-family:"Playfair Display",Georgia,serif;margin:8px 0 4px;font-size:30px}.head p{margin:0;color:var(--muted)}.progress{display:flex;gap:5px;margin-top:15px}.progress i{height:6px;flex:1;background:#e8e1dc;border-radius:99px}.progress i.on{background:var(--gold)}.progress i.done{background:var(--green)}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;margin:14px 0;box-shadow:0 7px 22px rgba(45,31,48,.07)}.qtop{display:flex;justify-content:space-between;color:#747079;font-size:12px;font-weight:900}.card h3{font-family:"Playfair Display",Georgia,serif;font-size:22px;margin:12px 0}.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opt{border:2px solid #e8e1dc;background:#fffdfa;border-radius:14px;padding:13px;text-align:left;font-weight:800;cursor:pointer}.opt.correct{border-color:#39a986;background:#e8f8f2}.opt.wrong{border-color:#ef8888;background:#fff0f0}.feedback{display:none;margin-top:12px;padding:11px 13px;border-radius:13px;font-size:14px}.feedback.show{display:block}.feedback.good{background:#e8f8f2;color:#176b56}.feedback.bad{background:#fff0f0;color:#a12828}
 
-.art-panel{background:linear-gradient(135deg,#faf4e8,#f2e7f6);border:1px solid #ded2df;border-radius:22px;padding:15px}.art-title{display:flex;justify-content:space-between;gap:10px;align-items:center}.art-title b{font-size:18px}.art-title span{font-size:12px;color:var(--muted)}.mosaic-board{position:relative;width:min(100%,520px);aspect-ratio:1;margin:15px auto;background:#28242c;border:10px solid #5c465e;border-radius:20px;overflow:hidden;box-shadow:inset 0 0 0 2px #ad9460,0 10px 24px rgba(0,0,0,.18)}
-.mosaic-board .slot{position:absolute;display:grid;place-items:center;border:2px dashed rgba(255,255,255,.72);background:rgba(255,255,255,.08);color:#fff;font-size:10px;font-weight:1000;text-shadow:0 1px 2px #000;transition:.18s}
-.slot.filled{border-style:solid;border-color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.3)}.slot.bad{border-color:#ff6b6b;background:rgba(255,70,70,.28);animation:shake .3s 2}@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-.s1{left:37%;top:5%;width:26%;height:25%;clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
-.s2{left:58%;top:18%;width:27%;height:25%;clip-path:polygon(42% 0,100% 25%,78% 100%,16% 90%,0 36%)}
-.s3{left:63%;top:43%;width:25%;height:25%;clip-path:polygon(70% 0,100% 50%,60% 100%,0 77%,10% 18%)}
-.s4{left:47%;top:61%;width:28%;height:25%;clip-path:polygon(80% 0,100% 58%,45% 100%,0 72%,20% 12%)}
-.s5{left:22%;top:65%;width:28%;height:23%;clip-path:polygon(62% 0,100% 42%,72% 100%,10% 88%,0 30%)}
-.s6{left:6%;top:49%;width:25%;height:26%;clip-path:polygon(25% 0,100% 22%,78% 85%,25% 100%,0 42%)}
-.s7{left:8%;top:23%;width:27%;height:27%;clip-path:polygon(0 30%,65% 0,100% 48%,70% 100%,10% 78%)}
-.s8{left:28%;top:22%;width:30%;height:27%;clip-path:polygon(22% 0,86% 18%,100% 67%,62% 100%,0 75%)}
-.s9{left:32%;top:43%;width:31%;height:25%;clip-path:polygon(15% 0,78% 6%,100% 54%,65% 100%,0 78%)}
-.s10{left:37%;top:30%;width:28%;height:25%;clip-path:polygon(48% 0,100% 35%,78% 100%,18% 91%,0 37%)}
-.s11{left:12%;top:74%;width:20%;height:18%;clip-path:polygon(30% 0,100% 28%,80% 100%,0 70%)}
-.s12{left:72%;top:72%;width:20%;height:17%;clip-path:polygon(15% 0,90% 20%,100% 75%,45% 100%,0 52%)}
-.center{position:absolute;left:39%;top:42%;width:22%;height:18%;border-radius:50%;background:#f3b51b;border:4px solid #fff1aa;display:grid;place-items:center;color:#6d4b00;font-weight:1000;font-size:11px;z-index:3}
-.pieces{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:15px}.piece{min-height:72px;border:2px solid #d9d0ca;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;font-weight:1000;cursor:grab;touch-action:none;user-select:none;position:relative;overflow:hidden}.piece:before{content:"";position:absolute;inset:8px;background:var(--c);clip-path:polygon(15% 0,85% 8%,100% 55%,72% 100%,18% 87%,0 38%);opacity:.9}.piece span{position:relative;z-index:2;background:rgba(255,255,255,.82);padding:4px 6px;border-radius:7px;font-size:10px}.piece.selected{outline:3px solid var(--purple);transform:translateY(-2px)}.piece.locked{opacity:.28;cursor:default}
-.instruction{background:#fff8d9;border:1px solid #ead68d;border-radius:14px;padding:12px;margin-top:12px;color:#685927;font-size:13px}.mini{font-size:12px;color:var(--muted)}
-.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.tagbtn{border:2px solid #e7e0da;background:#fff;border-radius:15px;padding:13px;text-align:left;font-weight:900;cursor:pointer}.tagbtn.correct{background:#e8f8f2;border-color:#38a987}.tagbtn.wrong{background:#fff0f0;border-color:#ee8b8b}
-.actions{display:flex;justify-content:flex-end;gap:9px;margin-top:17px}.btn{border:0;border-radius:13px;padding:12px 17px;font-weight:1000;cursor:pointer}.primary{background:var(--purple);color:#fff;box-shadow:0 4px 0 #4d2865}.ghost{background:#eae5e9;color:#4e4651}.gold{background:var(--gold);color:#3b3110}
-.result{display:none;position:fixed;inset:0;background:rgba(29,23,30,.72);z-index:50;align-items:center;justify-content:center;padding:18px}.result.show{display:flex}.result-card{background:#fffdf7;border-radius:28px;max-width:560px;width:100%;padding:30px;text-align:center;position:relative;overflow:hidden}.result-card h2{font-size:36px;margin:6px 0}.bigscore{font-size:62px;font-weight:1000;color:var(--purple)}.stars{font-size:33px;letter-spacing:5px}.confetti i{position:absolute;top:-20px;width:9px;height:18px;background:var(--gold);animation:fall 2.2s linear infinite}.confetti i:nth-child(2n){background:var(--purple)}.confetti i:nth-child(3n){background:#2c9b7b}.confetti i:nth-child(1){left:8%;animation-delay:.2s}.confetti i:nth-child(2){left:25%;animation-delay:.7s}.confetti i:nth-child(3){left:44%;animation-delay:.1s}.confetti i:nth-child(4){left:65%;animation-delay:.8s}.confetti i:nth-child(5){left:83%;animation-delay:.4s}@keyframes fall{to{transform:translateY(600px) rotate(260deg)}}
-.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,120px);background:#28202b;color:#fff;border-radius:99px;padding:11px 16px;font-weight:900;z-index:80;transition:.25s}.toast.show{transform:translate(-50%,0)}
-@media(max-width:650px){
- .top,.hero,main{padding-left:15px;padding-right:15px}.score{grid-template-columns:1fr}.opts,.principles{grid-template-columns:1fr}.pieces{grid-template-columns:repeat(3,1fr)}.piece{min-height:65px}.hero h1{font-size:38px}.mosaic-board{border-width:7px}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:7px}
+.step{padding:9px;border-radius:10px;font-size:11px;background:#f8fafc;border:1px solid #e3e9ef}
+.step b{display:block;color:var(--blue);margin-bottom:3px;font-size:12px}
+.question{padding:10px;border:1px solid #e2e8f0;border-radius:10px;margin:7px 0;font-size:12px}
+.quiz-image{margin:8px 0;padding:6px;border-radius:10px;background:linear-gradient(135deg,#eef7ff,#ffffff);border:1px solid #dce9f5;display:flex;justify-content:center}
+.quiz-image.real-anatomy{min-height:150px;align-items:center;overflow:hidden}
+.quiz-image.real-anatomy img{display:block;max-width:100%;width:auto;height:165px;object-fit:contain;border-radius:6px}
+.quiz-image.real-anatomy.intestine img{height:180px}
+
+/* Interactive anatomy upgrade */
+.anatomy-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(210px,.45fr);gap:9px;align-items:start}
+.anatomy-visual{background:linear-gradient(145deg,#102d43,#173d57);border:1px solid #ffffff18;border-radius:12px;position:relative;min-height:300px;overflow:hidden}
+.anatomy-visual svg{width:100%;height:300px;display:block}
+.organ-hotspot{cursor:pointer;transition:filter .2s,transform .2s}
+.organ-hotspot:hover,.organ-hotspot.active{filter:brightness(1.12) drop-shadow(0 5px 8px #0005)}
+.anatomy-info{background:#f7fbff;border:1px solid #dbe7f1;border-radius:11px;padding:10px;color:var(--ink);font-size:12px}
+.anatomy-info h3{margin-top:0}
+.info-pill{display:inline-block;padding:3px 7px;border-radius:999px;background:#e7f6ff;color:#12648a;font-weight:800;font-size:12px;margin-bottom:8px}
+.air-flow{fill:#69e5ff;filter:drop-shadow(0 0 4px #69e5ff)}
+.air-flow.exhale{fill:#d6a0ff}
+.breathing .lung-shape{transform-box:fill-box;transform-origin:center;animation:lungPulse 2.4s ease-in-out infinite}
+.breathing .lung-shape.r{animation-delay:.05s}
+.breathing .air-flow{animation:airTravel 2.4s linear infinite}
+@keyframes lungPulse{0%,100%{transform:scale(1)}45%,60%{transform:scale(1.075,1.06)}}
+@keyframes airTravel{0%{opacity:0;transform:translateY(-8px)}20%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translateY(92px)}}
+
+
+.organ-key{display:grid;gap:5px;margin-top:8px}
+.organ-key button{text-align:left;background:#edf5fb;color:#17324d;border:1px solid #d4e2ec;padding:7px 8px;font-size:11px}
+.organ-key button:hover{background:#e0f0fb}
+.digest-anatomy{background:linear-gradient(145deg,#102d43,#173d57);border-radius:12px;min-height:330px;position:relative;overflow:hidden}
+.digest-anatomy svg{width:100%;height:330px;display:block}
+.digest-organ{cursor:pointer;transition:filter .2s}
+.digest-organ:hover,.digest-organ.active{filter:brightness(1.12) drop-shadow(0 5px 8px #0005)}
+.feces{filter:drop-shadow(0 2px 3px #0006)}
+.feces-path{fill:none;stroke:#d49a54;stroke-width:3;stroke-dasharray:7 7;opacity:.55}
+.nutrient{fill:#6de0ff;opacity:.9}
+.nutrient-flow .nutrient{animation:nutrientMove 3s linear infinite}
+@keyframes nutrientMove{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(75px,12px);opacity:0}}
+.fecal-flow .feces{animation:fecesTravel 8s linear infinite}
+@keyframes fecesTravel{0%{transform:translate(-105px,-8px);opacity:0}8%{opacity:1}28%{transform:translate(-55px,40px)}50%{transform:translate(15px,88px)}72%{transform:translate(72px,142px)}90%{transform:translate(98px,205px);opacity:1}100%{transform:translate(112px,250px);opacity:0}}
+.digest-labels{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.digest-labels button{background:#eaf4fb;color:#17324d;border:1px solid #cfdee9}
+.process-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:8px}
+.process-step{background:#ffffff0d;border:1px solid #ffffff18;border-radius:8px;padding:7px;text-align:center;color:#e9f8ff;font-size:10px}
+.process-step strong{display:block;color:#6de0ff;margin-bottom:2px;font-size:11px}
+
+/* Exact reference image: visual tidak diubah, hanya diletakkan sebagai lapisan asas simulator. */
+.resp-reference{background:#fff;display:flex;align-items:center;justify-content:center;min-height:300px}
+.resp-image-wrap{position:relative;width:min(100%,360px);aspect-ratio:1/1;margin:auto}
+.resp-image-wrap>img{display:block;width:100%;height:100%;object-fit:contain}
+.resp-overlay{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.air-path{fill:none;stroke-width:2;stroke-dasharray:7 7;opacity:.28}
+.air-path.inhale{stroke:#159de0}
+.air-path.exhale{stroke:#8a5bd6}
+.air-particles circle{fill:#159de0;filter:drop-shadow(0 0 3px #159de0)}
+.resp-pulse ellipse{fill:none;stroke:#ff6d73;stroke-width:2;opacity:.25;transform-box:fill-box;transform-origin:center;animation:respPulse 2.2s ease-in-out infinite}
+.resp-pulse ellipse:nth-child(2){animation-delay:.1s}
+.resp-reference:not(.breathing) .air-particles,.resp-reference:not(.breathing) .resp-pulse{visibility:hidden}
+@keyframes respPulse{0%,100%{transform:scale(.96);opacity:.12}50%{transform:scale(1.08);opacity:.7}}
+.resp-hotspot{position:absolute;z-index:2;padding:5px 8px;border-radius:999px;background:#fff;color:#17324d;border:1px solid #cddde8;font-size:10px;box-shadow:0 2px 6px #17324d22}
+.resp-hotspot.nose{left:2%;top:25%}.resp-hotspot.trachea{left:2%;top:43%}.resp-hotspot.lungs{right:1%;top:58%}
+.resp-note{font-size:10px;text-align:center;color:#4b6679;margin-top:3px}.resp-note span{color:#159de0;font-weight:800}.resp-note em{color:#8a5bd6;font-style:normal;font-weight:800}
+
+@media(max-width:760px){
+ .anatomy-layout{grid-template-columns:1fr}
+ .anatomy-visual{min-height:250px}.anatomy-visual svg{height:250px}
+ .digest-anatomy,.digest-anatomy svg{min-height:280px;height:280px}
+ .process-strip{grid-template-columns:repeat(2,1fr)}
+ .resp-hotspot{font-size:9px;padding:4px 6px}
+ .question label{margin:5px 0;font-size:11px}
 }
+
+.quiz-image svg{width:min(100%,520px);height:180px}
+.quiz-image.split{gap:8px}
+.quiz-image.split>div{flex:1}
+.quiz-image.split svg{height:145px}
+
+.question label{display:block;margin:7px 0;cursor:pointer}
+.result{padding:15px;border-radius:14px;background:#edf9f1;font-weight:800;display:none}
+.obs{background:#fff8e9;border:1px solid #f2d59c;border-radius:14px;padding:15px}
+textarea{width:100%;min-height:70px;border:1px solid #ccd8e3;border-radius:12px;padding:12px;font:inherit}
+footer{text-align:center;color:var(--muted);padding:12px;font-size:11px}
+.small{font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="top">
-  <div class="brand"><div class="logo">🎨</div><div><small>Laman Apresiasi Seni Visual</small><b>PSV TAHUN 5</b></div></div>
-  <button class="sound" id="sound">🔊 Bunyi</button>
+<header>
+<div class="wrap">
+<span class="badge">SAINS TAHUN 4 • MANUSIA</span>
+<h1>Pernafasan & Penyahtinjaan</h1>
+<div class="subtitle">Teroka, uji simulator dan buat pemerhatian seperti seorang ahli sains.</div>
+</div>
 </header>
 
-<section class="hero">
-  <div class="kicker">● JOM JADI SENIMAN MOZEK</div>
-  <h1>Teknik <span>Mozek</span></h1>
-  <p>Kenali teknik mozek, bina karya bunga daripada kepingan bahan dan temui unsur seni serta prinsip rekaan yang digunakan.</p>
-  <div class="tabs">
-    <button class="tab active" data-m="1"><em>01</em> Kenal Teknik</button>
-    <button class="tab" data-m="2"><em>02</em> Puzzle Mozek</button>
-    <button class="tab" data-m="3"><em>03</em> Unsur & Prinsip</button>
-  </div>
+<nav><div class="navin">
+<a href="#mula">Mula</a><a href="#pernafasan">🌬️ Pernafasan</a><a href="#penyahtinjaan">🍎 Penyahtinjaan</a><a href="#kuiz">🧠 Kuiz</a>
+</div></nav>
+
+<main class="wrap">
+<section id="mula" class="card">
+<h2>🎯 Apa yang akan kamu pelajari?</h2>
+<div class="grid">
+<div class="info"><b>1. Pernafasan</b><p>Kenal pasti laluan udara dan peranan organ pernafasan. Uji perubahan kadar pernafasan.</p></div>
+<div class="info green"><b>2. Penyahtinjaan</b><p>Fahami bagaimana bahan makanan yang tidak diperlukan disingkirkan sebagai tinja.</p></div>
+<div class="info orange"><b>3. Kemahiran proses sains</b><p>Manipulasikan pemboleh ubah, buat pemerhatian dan catat dapatan.</p></div>
+</div>
 </section>
 
+<section id="pernafasan" class="card">
+<div class="sim">
+<h2>🌬️ Simulator Pernafasan Manusia</h2>
+<p>Perhatikan <b>udara masuk dan keluar</b> secara berterusan. Tekan bahagian organ pada gambar untuk melihat penerangan. Perhatikan animasi udara dan pengembangan paru-paru.</p>
 
-<section class="knowledge" aria-label="Maklumat penting seni mozek">
-  <div class="knowledge-head">
-    <div>
-      <div class="eyebrow">NOTA SENI · ASAS PENTING</div>
-      <h2>Kenali Seni Mozek</h2>
-    </div>
-    <p>Fahami maksud, teknik, bahan dan alatan sebelum menghasilkan karya mozek yang kemas dan menarik.</p>
-  </div>
+<div class="anatomy-layout">
+<div class="anatomy-visual resp-reference" id="respVisual">
+<div class="resp-image-wrap">
+<img src="respiratory-reference.png" alt="Sistem pernafasan manusia: hidung, trakea, bronkus dan paru-paru">
+<svg class="resp-overlay" viewBox="0 0 360 360" aria-hidden="true">
+<path class="air-path inhale" d="M141 94 C150 105 151 121 151 139 C151 157 151 174 160 188 C168 200 174 211 174 228"/>
+<path class="air-path exhale" d="M219 228 C220 205 212 193 207 181 C202 168 207 148 207 128 C207 113 211 101 219 94"/>
+<g class="air-particles">
+<circle r="4"><animateMotion dur="2.2s" repeatCount="indefinite" path="M141 94 C150 105 151 121 151 139 C151 157 151 174 160 188 C168 200 174 211 174 228"/></circle>
+<circle r="3"><animateMotion dur="2.2s" begin=".55s" repeatCount="indefinite" path="M141 94 C150 105 151 121 151 139 C151 157 151 174 160 188 C168 200 174 211 174 228"/></circle>
+<circle r="3"><animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite" path="M141 94 C150 105 151 121 151 139 C151 157 151 174 160 188 C168 200 174 211 174 228"/></circle>
+</g>
+<g class="resp-pulse"><ellipse cx="143" cy="213" rx="40" ry="49"/><ellipse cx="217" cy="213" rx="40" ry="49"/></g>
+</svg>
+<button class="resp-hotspot nose" type="button" data-organ="hidung" aria-label="Hidung">Hidung</button>
+<button class="resp-hotspot trachea" type="button" data-organ="trakea" aria-label="Trakea">Trakea</button>
+<button class="resp-hotspot lungs" type="button" data-organ="paru" aria-label="Paru-paru">Paru-paru</button>
+</div>
+<div class="resp-note">Udara <span>● masuk</span> → paru-paru mengembang → <em>● keluar</em></div>
+</div></div>
 
-  <div class="knowledge-grid">
-    <article class="know-card" style="--tile:#7b3f98">
-      <div class="know-icon"><img src="icon-puzzle.jpg" alt="Kepingan jubin mozek"></div>
-      <h3>Apakah Seni Mozek?</h3>
-      <p>Mozek ialah karya seni yang dihasilkan dengan menyusun dan melekatkan <b>kepingan kecil bahan</b> untuk membentuk corak, imej atau hiasan.</p>
-    </article>
+<div class="anatomy-info" id="respInfo">
+<span class="info-pill">Klik organ</span>
+<h3 id="respInfoTitle">Paru-paru</h3>
+<p id="respInfoText">Paru-paru mengembang ketika menarik nafas dan mengempis ketika menghembus nafas.</p>
+<div class="organ-key">
+<button type="button" data-organ="hidung">👃 Hidung</button>
+<button type="button" data-organ="trakea">🫁 Trakea</button>
+<button type="button" data-organ="paru">🫁 Paru-paru</button>
+</div>
 
-    <article class="know-card" style="--tile:#f4c542">
-      <div class="know-icon"><img src="icon-teknik.jpg" alt="Teknik menyusun kepingan mozek"></div>
-      <h3>Teknik Mozek</h3>
-      <p>Kepingan dipilih mengikut warna, bentuk dan saiz, kemudian <b>disusun rapat</b> mengikut lakaran sebelum dilekatkan pada permukaan.</p>
-      <ul><li>Susun mengikut reka bentuk</li><li>Gabung warna dan bentuk</li><li>Pastikan susunan kemas</li></ul>
-    </article>
+</div>
+</div>
 
-    <article class="know-card" style="--tile:#4fae91">
-      <div class="know-icon"><img src="icon-bahan.jpg" alt="Bahan jubin untuk mozek"></div>
-      <h3>Bahan</h3>
-      <p>Antara bahan yang sesuai digunakan:</p>
-      <ul><li>Kertas warna / kertas majalah</li><li>Kepingan jubin atau seramik</li><li>Kaca berwarna</li><li>Bahan kitar semula yang sesuai</li></ul>
-    </article>
+<div class="controls">
+<button type="button" onclick="breath('rest')">🧘 Rehat</button>
+<button type="button" class="orange" onclick="breath('active')">🏃 Selepas Aktiviti</button>
+<button type="button" class="secondary" onclick="toggleBreathing()" id="breathToggle">⏸ Hentikan Animasi</button>
+</div>
 
-    <article class="know-card" style="--tile:#e76f51">
-      <div class="know-icon"><img src="icon-alatan.jpg" alt="Alatan memotong jubin mozek"></div>
-      <h3>Alatan</h3>
-      <p>Alatan membantu memotong, menyusun dan melekatkan kepingan:</p>
-      <ul><li>Gunting</li><li>Pembaris & pensel</li><li>Gam / berus gam</li><li>Bekas kecil untuk mengasingkan kepingan</li></ul>
-    </article>
-  </div>
+<div class="readout">
+<div class="read"><span>Kadar pernafasan</span><strong id="rate">18</strong><span>kali/min</span></div>
+<div class="read"><span>Keadaan</span><strong id="state">Rehat</strong></div>
+<div class="read"><span>Udara diperlukan</span><strong id="airv">Sederhana</strong></div>
+</div>
+<div style="margin-top:12px">Kadar pernafasan
+<div class="bar"><div class="fill" id="breathbar"></div></div></div>
 
-  <div class="tech-strip" aria-label="Langkah asas teknik mozek">
-    <div class="tech-step"><span>✏️</span>1. Lakarkan</div>
-    <div class="tech-step"><span>✂️</span>2. Potong</div>
-    <div class="tech-step"><span>🧩</span>3. Susun</div>
-    <div class="tech-step"><span>🖌️</span>4. Lekat</div>
-    <div class="tech-step"><span>✨</span>5. Kemas</div>
-  </div>
+<div class="process-strip">
+<div class="process-step"><strong>1. Masuk</strong>Udara melalui hidung</div>
+<div class="process-step"><strong>2. Bergerak</strong>Melalui trakea</div>
+<div class="process-step"><strong>3. Paru-paru</strong>Oksigen digunakan</div>
+<div class="process-step"><strong>4. Keluar</strong>Karbon dioksida dihembus</div>
+</div>
+
+<div class="obs">
+<h3>🔎 Pemerhatian kamu</h3>
+<p>Bandingkan keadaan rehat dengan selepas aktiviti fizikal. Apakah perubahan pada kadar pernafasan dan pergerakan paru-paru?</p>
+<textarea id="obsBreath" placeholder="Tulis pemerhatian kamu di sini..."></textarea>
+</div>
 </section>
 
-<main>
-<section class="mission active" id="m1">
- <div class="head"><div class="tag">AKTIVITI 01 · 10 MATA</div><h2>Kenal pasti teknik mozek</h2><p>Pilih jawapan yang paling tepat.</p><div class="progress"><i class="on"></i><i></i><i></i></div></div>
- <div class="card">
-  <div class="qtop"><span>SOALAN OBJEKTIF</span><span>10 mata</span></div>
-  <h3>Apakah yang dimaksudkan dengan teknik mozek?</h3>
-  <div class="opts" id="q1">
-   <button class="opt">Melukis menggunakan satu warna sahaja</button>
-   <button class="opt" data-correct="1">Menghasilkan gambar menggunakan kepingan kecil bahan yang disusun dan dilekatkan</button>
-   <button class="opt">Mengukir kayu menggunakan pahat</button>
-   <button class="opt">Mencampurkan cat dengan air sehingga cair</button>
-  </div>
-  <div class="feedback" id="f1"></div>
- </div>
- <div class="card">
-  <div class="qtop"><span>LIHAT KARYA CONTOH</span><span>Inspirasi</span></div>
-  <div style="border-radius:16px;overflow:hidden;border:1px solid #ded4ca">
-   <img src="karya-mozek-rekaan.jpeg" alt="Kepingan mozek berwarna-warni" style="width:100%;display:block">
-  </div>
-  <p class="mini" style="margin-bottom:0">Perhatikan kepelbagaian warna, bentuk kepingan dan susunan yang membentuk keseluruhan karya.</p>
- </div>
- <div class="actions"><button class="btn primary" id="go2">Ke Aktiviti 02 →</button></div>
+<section class="card">
+<h2>🫁 Laluan udara</h2>
+<div class="steps">
+<div class="step"><b>1. Hidung</b>Udara masuk dan ditapis.</div>
+<div class="step"><b>2. Trakea</b>Udara bergerak menuju paru-paru.</div>
+<div class="step"><b>3. Bronkus</b>Udara dibawa ke paru-paru kiri dan kanan.</div>
+<div class="step"><b>4. Paru-paru</b>Pertukaran gas berlaku. Oksigen digunakan oleh badan.</div>
+</div>
 </section>
 
-<section class="mission" id="m2">
- <div class="head"><div class="tag">AKTIVITI 02 · 25 MATA</div><h2>Susun Puzzle Mozek Bunga</h2><p>Seret setiap kepingan ke ruang yang sepadan. Pada telefon, tekan kepingan kemudian tekan ruang sasaran.</p><div class="progress"><i class="done"></i><i class="on"></i><i></i></div></div>
- <div class="card">
-  <div class="art-panel">
-   <div class="art-title"><b>🌸 Karya Mozek: Bunga</b><span id="puzzleCount">0 / 12 keping</span></div>
-   <div class="mosaic-board" id="board">
-    <div class="slot s1" data-slot="1">1</div><div class="slot s2" data-slot="2">2</div><div class="slot s3" data-slot="3">3</div><div class="slot s4" data-slot="4">4</div>
-    <div class="slot s5" data-slot="5">5</div><div class="slot s6" data-slot="6">6</div><div class="slot s7" data-slot="7">7</div><div class="slot s8" data-slot="8">8</div>
-    <div class="slot s9" data-slot="9">9</div><div class="slot s10" data-slot="10">10</div><div class="slot s11" data-slot="11">11</div><div class="slot s12" data-slot="12">12</div>
-    <div class="center">PUTIK<br>BUNGA</div>
-   </div>
-   <div class="pieces" id="pieces"></div>
-   <div class="instruction">💡 <b>Petunjuk:</b> Setiap kepingan yang diletakkan pada ruang yang betul mendapat markah. Lengkapkan semua 12 keping untuk mendapat <b>25 mata penuh</b>.</div>
-   <div class="feedback" id="pf"></div>
-  </div>
- </div>
- <div class="actions"><button class="btn ghost" id="back1">← Aktiviti 01</button><button class="btn primary" id="go3">Ke Aktiviti 03 →</button></div>
+<section id="penyahtinjaan" class="card">
+<div class="sim">
+<h2>🍎 Simulator Penyahtinjaan</h2>
+<p>Perhatikan <b>nutrien diserap di usus kecil</b> dan bahan yang tidak diperlukan bergerak ke <b>usus besar → rektum → dubur</b> sebagai tinja.</p>
+
+<div class="anatomy-layout">
+<div>
+<div class="digest-anatomy" id="digestVisual">
+<svg viewBox="0 0 720 410" role="img" aria-label="Ilustrasi interaktif usus kecil dan usus besar">
+<defs>
+ <linearGradient id="large3d" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd0ad"/><stop offset=".45" stop-color="#df986d"/><stop offset=".8" stop-color="#b9624e"/><stop offset="1" stop-color="#78434a"/></linearGradient>
+ <linearGradient id="small3d" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffc0a1"/><stop offset=".5" stop-color="#e88770"/><stop offset="1" stop-color="#a95055"/></linearGradient>
+ <filter id="digShadow"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-opacity=".28"/></filter>
+</defs>
+<!-- large intestine, segmented tube -->
+<path class="digest-organ" data-organ="ususBesar" d="M196 86 C154 86 135 114 135 158 L135 282 C135 321 164 342 205 342 L515 342 C556 342 585 318 585 280 L585 159 C585 116 562 86 523 86 L196 86Z"
+ fill="none" stroke="url(#large3d)" stroke-width="42" stroke-linecap="round" stroke-linejoin="round" filter="url(#digShadow)"/>
+<!-- haustra lines -->
+<g stroke="#8c4a49" stroke-width="5" opacity=".35">
+<path d="M150 132l-27 18M150 175l-27 18M150 218l-27 18M150 261l-27 18"/>
+<path d="M570 132l27 18M570 175l27 18M570 218l27 18M570 261l27 18"/>
+<path d="M210 322l12 28M255 322l12 28M300 322l12 28M345 322l12 28M390 322l12 28M435 322l12 28M480 322l12 28"/>
+</g>
+<!-- small intestine coiled -->
+<g class="digest-organ" data-organ="ususKecil" filter="url(#digShadow)">
+<path d="M216 150 C250 116 315 127 336 159 C355 189 326 215 285 201 C246 188 227 219 252 240 C279 263 345 235 365 262 C386 291 346 312 303 293 C267 277 243 296 260 316" fill="none" stroke="url(#small3d)" stroke-width="29" stroke-linecap="round"/>
+<path d="M430 146 C398 121 359 139 365 166 C372 195 421 184 436 207 C454 235 410 254 380 235 C352 217 326 239 344 261 C362 282 414 270 430 294" fill="none" stroke="url(#small3d)" stroke-width="29" stroke-linecap="round"/>
+</g>
+<!-- rectum / anus -->
+<path class="digest-organ" data-organ="rektum" d="M514 323 C514 351 508 365 504 382" fill="none" stroke="url(#large3d)" stroke-width="31" stroke-linecap="round"/>
+<path d="M488 382 Q504 395 520 382" fill="none" stroke="#7b3d46" stroke-width="8" stroke-linecap="round"/>
+<!-- nutrient particles -->
+<g class="nutrient-flow">
+<circle class="nutrient" cx="295" cy="168" r="5"/><circle class="nutrient" cx="345" cy="210" r="5"/><circle class="nutrient" cx="286" cy="258" r="5"/>
+</g>
+<!-- feces route -->
+<path class="feces-path" d="M355 175 C395 183 425 205 432 236 C440 272 456 303 505 325 C514 337 512 360 505 386"/>
+<g class="fecal-flow">
+<circle class="feces" cx="355" cy="175" r="10" fill="#6f432f"/>
+<circle class="feces" cx="355" cy="175" r="4" fill="#c58b58"/>
+</g>
+<!-- labels -->
+<g font-family="system-ui" font-weight="800">
+<rect x="52" y="40" width="145" height="34" rx="17" fill="#fff"/><text x="124" y="63" text-anchor="middle" fill="#17324d">Usus besar</text>
+<rect x="247" y="355" width="132" height="34" rx="17" fill="#fff"/><text x="313" y="378" text-anchor="middle" fill="#17324d">Usus kecil</text>
+<rect x="532" y="368" width="132" height="34" rx="17" fill="#fff"/><text x="598" y="391" text-anchor="middle" fill="#17324d">Dubur</text>
+</g>
+<!-- direction arrow -->
+<path d="M585 292l-20 10 20 10z" fill="#ffd36b"/>
+<text x="470" y="65" fill="#dff8ff" font-size="16" font-weight="800">Arah pergerakan bahan makanan</text>
+</svg>
+</div>
+
+<div class="digest-labels">
+<button type="button" data-digest-organ="ususKecil">🔎 Usus kecil</button>
+<button type="button" data-digest-organ="ususBesar">🔎 Usus besar</button>
+<button type="button" data-digest-organ="rektum">🔎 Rektum / dubur</button>
+</div>
+</div>
+
+<div class="anatomy-info" id="digestInfo">
+<span class="info-pill">Klik organ</span>
+<h3 id="digestInfoTitle">Usus kecil</h3>
+<p id="digestInfoText">Nutrien daripada makanan diserap ke dalam badan di usus kecil.</p>
+<div class="process-strip" style="grid-template-columns:1fr 1fr">
+<div class="process-step" style="color:#17324d;background:#eef8ff"><strong>🔵 Nutrien</strong>Diserap di usus kecil</div>
+<div class="process-step" style="color:#17324d;background:#fff3e8"><strong>🟤 Tinja</strong>Bergerak ke usus besar</div>
+</div>
+<p class="small" style="margin-top:12px">Animasi coklat menunjukkan pergerakan bahan yang menjadi tinja menuju rektum dan keluar melalui dubur.</p>
+</div>
+</div>
+
+<div class="controls">
+<button type="button" class="green" onclick="digest()">▶ Mulakan / ulang perjalanan</button>
+<button type="button" class="secondary" onclick="toggleDigest()" id="digestToggle">⏸ Hentikan Animasi</button>
+</div>
+<div class="readout">
+<div class="read"><span>Kedudukan</span><strong id="digestPos">Usus kecil</strong></div>
+<div class="read"><span>Proses</span><strong id="needed">Nutrien diserap</strong></div>
+<div class="read"><span>Hasil akhir</span><strong id="waste">Tinja</strong></div>
+</div>
+</div>
+
+<div class="obs">
+<h3>🔎 Pemerhatian kamu</h3>
+<p>Perhatikan bola coklat bergerak dari usus kecil ke usus besar, rektum dan akhirnya keluar melalui dubur. Apakah yang berlaku kepada bahan makanan yang tidak diperlukan?</p>
+<textarea id="obsDigest" placeholder="Tulis pemerhatian kamu di sini..."></textarea>
+</div>
 </section>
 
-<section class="mission" id="m3">
- <div class="head"><div class="tag">AKTIVITI 03 · 15 MATA</div><h2>Detektif Seni: Unsur & Prinsip</h2><p>Gunakan karya bunga yang telah disusun untuk mengenal pasti unsur seni dan prinsip rekaan.</p><div class="progress"><i class="done"></i><i class="done"></i><i class="on"></i></div></div>
- <div class="card">
-  <div class="qtop"><span>SOALAN 1 / 3</span><span>5 mata</span></div>
-  <h3>Unsur seni yang paling jelas dapat diperhatikan pada karya mozek ini ialah...</h3>
-  <div class="opts final" data-answer="Warna">
-   <button class="opt">Ruang</button><button class="opt">Warna</button><button class="opt">Jalinan</button><button class="opt">Bentuk</button>
-  </div><div class="feedback"></div>
- </div>
- <div class="card">
-  <div class="qtop"><span>SOALAN 2 / 3</span><span>5 mata</span></div>
-  <h3>Susunan kepingan yang kelihatan teratur dan sedap dipandang menunjukkan prinsip rekaan...</h3>
-  <div class="opts final" data-answer="Harmoni">
-   <button class="opt">Kontra</button><button class="opt">Harmoni</button><button class="opt">Penegasan</button><button class="opt">Pergerakan</button>
-  </div><div class="feedback"></div>
- </div>
- <div class="card">
-  <div class="qtop"><span>SOALAN 3 / 3</span><span>5 mata</span></div>
-  <h3>Bentuk bunga menjadi tumpuan utama dalam karya. Prinsip rekaan ini ialah...</h3>
-  <div class="opts final" data-answer="Penegasan">
-   <button class="opt">Penegasan</button><button class="opt">Kepelbagaian</button><button class="opt">Irama</button><button class="opt">Kesatuan</button>
-  </div><div class="feedback"></div>
- </div>
- <div class="card">
-  <div class="qtop"><span>NOTA SENI</span><span>Perhatikan karya</span></div>
-  <p><b>Unsur seni:</b> warna, bentuk, garisan, jalinan dan ruang boleh hadir dalam karya mozek.</p>
-  <p style="margin-bottom:0"><b>Prinsip rekaan:</b> harmoni, penegasan, kepelbagaian, keseimbangan dan kesatuan membantu karya kelihatan teratur dan menarik.</p>
- </div>
- <div class="actions"><button class="btn ghost" id="back2">← Aktiviti 02</button><button class="btn gold" id="result">🏆 Lihat Keputusan</button></div>
+<section class="card">
+<h2>🧠 Ringkasan</h2>
+<div class="grid">
+<div class="info"><b>Pernafasan</b><p>Manusia menyedut udara yang mengandungi oksigen dan menghembus udara yang mengandungi lebih banyak karbon dioksida.</p></div>
+<div class="info green"><b>Penyahtinjaan</b><p>Penyahtinjaan ialah proses menyingkirkan tinja, iaitu bahan makanan yang tidak tercerna dan tidak diperlukan oleh badan.</p></div>
+</div>
+</section>
+
+<section id="kuiz" class="card">
+<h2>🧠 Kuiz Bergambar — Cabaran Organ Manusia</h2>
+<p class="small">Pilih jawapan berdasarkan gambar. Gambar organ sebenar/3D digunakan supaya murid lebih mudah mengenal pasti struktur organ.</p>
+
+<div class="question">
+<b>1. Lihat organ dalam gambar. Apakah nama organ yang ditunjukkan?</b>
+<div class="quiz-image real-anatomy"><img src="respiratory-reference.png" alt="Ilustrasi sistem pernafasan manusia"></div>
+<label><input type="radio" name="q1" value="a"> A. Paru-paru</label>
+<label><input type="radio" name="q1" value="b"> B. Perut</label>
+<label><input type="radio" name="q1" value="c"> C. Usus besar</label>
+<label><input type="radio" name="q1" value="d"> D. Jantung</label>
+</div>
+
+<div class="question">
+<b>2. Berdasarkan gambar sistem pernafasan, salur udara yang membawa udara menuju paru-paru ialah...</b>
+<div class="quiz-image real-anatomy"><img src="respiratory-reference.png" alt="Ilustrasi organ pernafasan manusia"></div>
+<label><input type="radio" name="q2" value="a"> A. Paru-paru</label>
+<label><input type="radio" name="q2" value="b"> B. Trakea</label>
+<label><input type="radio" name="q2" value="c"> C. Usus kecil</label>
+<label><input type="radio" name="q2" value="d"> D. Rektum</label>
+</div>
+
+<div class="question">
+<b>3. Perhatikan gambar 3D organ pencernaan. Bahagian yang berlingkar di bahagian tengah ialah...</b>
+<div class="quiz-image real-anatomy intestine"><img src="https://png.pngtree.com/png-vector/20251117/ourlarge/pngtree-a-detailed-3d-rendering-of-the-human-large-and-small-intestines-png-image_17950339.webp" alt="Ilustrasi 3D usus besar dan usus kecil manusia"></div>
+<label><input type="radio" name="q3" value="a"> A. Usus kecil</label>
+<label><input type="radio" name="q3" value="b"> B. Usus besar</label>
+<label><input type="radio" name="q3" value="c"> C. Rektum</label>
+<label><input type="radio" name="q3" value="d"> D. Trakea</label>
+</div>
+
+<div class="question">
+<b>4. Berdasarkan gambar 3D, bahan makanan yang tidak diperlukan akhirnya...</b>
+<div class="quiz-image real-anatomy intestine"><img src="https://png.pngtree.com/png-vector/20251117/ourlarge/pngtree-a-detailed-3d-rendering-of-the-human-large-and-small-intestines-png-image_17950339.webp" alt="Ilustrasi 3D sistem usus manusia"></div>
+<label><input type="radio" name="q4" value="a"> A. Diserap sebagai oksigen</label>
+<label><input type="radio" name="q4" value="b"> B. Disingkirkan sebagai tinja</label>
+<label><input type="radio" name="q4" value="c"> C. Bertukar menjadi darah</label>
+<label><input type="radio" name="q4" value="d"> D. Masuk ke dalam paru-paru</label>
+</div>
+
+<div class="question">
+<b>5. Bandingkan dua gambar. Apakah pemerhatian yang paling tepat?</b>
+<div class="quiz-image split">
+<div><svg viewBox="0 0 220 150"><ellipse cx="110" cy="78" rx="55" ry="62" fill="#ef707a"/><text x="110" y="140" text-anchor="middle" font-weight="800" fill="#17324d">Rehat</text></svg></div>
+<div><svg viewBox="0 0 220 150"><ellipse cx="110" cy="78" rx="68" ry="72" fill="#ef707a"/><text x="110" y="140" text-anchor="middle" font-weight="800" fill="#17324d">Aktiviti</text></svg></div>
+</div>
+<label><input type="radio" name="q5" value="a"> A. Kadar pernafasan meningkat selepas aktiviti</label>
+<label><input type="radio" name="q5" value="b"> B. Kadar pernafasan menjadi sifar selepas aktiviti</label>
+<label><input type="radio" name="q5" value="c"> C. Manusia tidak memerlukan oksigen ketika aktiviti</label>
+<label><input type="radio" name="q5" value="d"> D. Paru-paru berhenti berfungsi ketika aktiviti</label>
+</div>
+
+<button onclick="quiz()">Semak Jawapan</button>
+<div class="result" id="result"></div>
 </section>
 </main>
-</div>
-
-<div class="result" id="resultModal">
- <div class="result-card">
-  <div class="confetti"><i></i><i></i><i></i><i></i><i></i></div>
-  <div style="position:relative;z-index:2">
-   <div style="font-size:48px">🎨🌸</div>
-   <h2>Tahniah, Seniman Mozek!</h2>
-   <p>Anda telah melengkapkan aktiviti PSV Tahun 5 — Teknik Mozek.</p>
-   <div class="bigscore" id="finalScore">0</div>
-   <div>/ 50 mata</div>
-   <div class="stars" id="stars">☆☆☆☆☆</div>
-   <p id="remark"></p>
-   <button class="btn primary" id="close">Semak Semula</button>
-  </div>
- </div>
-</div>
-<div class="toast" id="toast"></div>
+<footer>Sains Tahun 4 • Aktiviti interaktif untuk pembelajaran murid</footer>
 
 <script>
-const state={score:0,done:[false,false,false],q1:false,pieces:new Set(),final:new Set()};
-let selectedPiece=null,soundOn=false,audio=null;
+let timer=null;
+let breathingOn=true;
+let digestOn=true;
 
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-function toast(t){const x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)}
-function tone(freq=600,d=.08,type="sine"){
- if(!soundOn)return;
- const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
- if(!audio)audio=new AC();if(audio.state==="suspended")audio.resume();
- const o=audio.createOscillator(),g=audio.createGain(),n=audio.currentTime;
- o.type=type;o.frequency.setValueAtTime(freq,n);g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(.045,n+.01);g.gain.exponentialRampToValueAtTime(.0001,n+d);o.connect(g);g.connect(audio.destination);o.start(n);o.stop(n+d+.02)
-}
-function goodSound(){tone(660,.08);setTimeout(()=>tone(880,.11),70)}
-function badSound(){tone(230,.14,"sawtooth")}
-$("#sound").onclick=()=>{soundOn=!soundOn;$("#sound").textContent=soundOn?"🔊 Bunyi ON":"🔇 Bunyi OFF";if(soundOn){tone(740,.1);toast("Bunyi dihidupkan.")}else toast("Bunyi dimatikan.")};
-
-function update(){
- const scoreEl=$("#score"), doneEl=$("#done");
- if(scoreEl) scoreEl.textContent=state.score;
- if(doneEl) doneEl.textContent=state.done.filter(Boolean).length+" / 3";
- $$(".tab").forEach((b,i)=>{b.classList.toggle("active",i===0);});
-}
-function add(n){state.score=Math.min(50,state.score+n);update()}
-function show(n){
- $$(".mission").forEach((x,i)=>x.classList.toggle("active",i===n-1));
- $$(".tab").forEach((x,i)=>x.classList.toggle("active",i===n-1));
- window.scrollTo({top:0,behavior:"smooth"});
-}
-$$(".tab").forEach(b=>b.onclick=()=>show(+b.dataset.m));
-
-$("#q1").querySelectorAll(".opt").forEach(btn=>btn.onclick=()=>{
- if(state.q1)return;
- const good=btn.dataset.correct==="1";btn.classList.add(good?"correct":"wrong");
- $("#f1").className="feedback show "+(good?"good":"bad");
- $("#f1").textContent=good?"✓ Tepat! Mozek menggunakan kepingan kecil bahan yang disusun untuk membentuk imej.":"✗ Cuba lagi. Fikir tentang kepingan kecil yang disusun dan dilekatkan.";
- if(good){state.q1=true;add(10);goodSound()}else badSound();
-});
-$("#go2").onclick=()=>{if(!state.q1){toast("Jawab soalan Aktiviti 01 dahulu.");return}state.done[0]=true;update();show(2)};
-$("#back1").onclick=()=>show(1);
-$("#go3").onclick=()=>{if(state.pieces.size<12){toast("Lengkapkan semua 12 keping puzzle dahulu.");return}state.done[1]=true;update();show(3)};
-$("#back2").onclick=()=>show(2);
-
-const colors=["#e94f5d","#f6b52b","#57a7c7","#e76f51","#76b947","#9b59b6","#ef8e35","#4e8fbc","#f2d34e","#d64a77","#4fb39a","#d87bba"];
-const pieces=$("#pieces");
-for(let i=1;i<=12;i++){
- const d=document.createElement("button");d.type="button";d.className="piece";d.dataset.piece=i;d.style.setProperty("--c",colors[i-1]);d.draggable=true;
- d.innerHTML="<span>Keping "+i+"</span>";pieces.appendChild(d);
- d.addEventListener("dragstart",e=>{if(state.pieces.has(i)){e.preventDefault();return}e.dataTransfer.setData("text/plain",String(i));selectedPiece=i});
- d.addEventListener("click",()=>{if(state.pieces.has(i))return;selectedPiece=i;$$(".piece").forEach(x=>x.classList.remove("selected"));d.classList.add("selected");toast("Sekarang pilih ruang "+i+" pada bunga.")});
-}
-$$(".slot").forEach(slot=>{
- slot.addEventListener("dragover",e=>e.preventDefault());
- slot.addEventListener("drop",e=>{e.preventDefault();place(Number(e.dataTransfer.getData("text/plain")),slot)});
- slot.addEventListener("click",()=>{if(selectedPiece)place(selectedPiece,slot)});
-});
-function place(piece,slot){
- if(!piece||state.pieces.has(piece))return;
- const target=Number(slot.dataset.slot);
- if(piece!==target){
-  slot.classList.add("bad");setTimeout(()=>slot.classList.remove("bad"),400);badSound();
-  $("#pf").className="feedback show bad";$("#pf").textContent="✗ Belum tepat. Cuba padankan nombor kepingan dengan ruang yang sama.";
-  return
- }
- state.pieces.add(piece);slot.classList.add("filled");slot.textContent="✓";slot.style.background=colors[piece-1];
- const el=$(`.piece[data-piece="${piece}"]`);if(el){el.classList.add("locked");el.classList.remove("selected");el.disabled=true}
- selectedPiece=null;$("#puzzleCount").textContent=state.pieces.size+" / 12 keping";
- add(Math.ceil(25/12));goodSound();
- if(state.pieces.size===12){
-   // Correct the total to exactly 25 for this activity.
-   state.score-=Math.ceil(25/12)*12-25;update();
-   $("#pf").className="feedback show good";$("#pf").textContent="🌸 Karya mozek bunga lengkap! Anda mendapat 25 mata untuk Aktiviti 02.";
- }
-}
-
-$$(".final").forEach((box,idx)=>{
- box.querySelectorAll(".opt").forEach(btn=>btn.onclick=()=>{
-  if(state.final.has(idx))return;
-  const good=btn.textContent.trim()===box.dataset.answer;
-  btn.classList.add(good?"correct":"wrong");const fb=box.nextElementSibling;
-  fb.className="feedback show "+(good?"good":"bad");fb.textContent=good?"✓ Tepat! Anda berjaya membaca karya mozek.":"✗ Belum tepat. Perhatikan warna, susunan dan fokus karya.";
-  if(good){state.final.add(idx);add(5);goodSound()}else badSound();
- })
-});
-
-$("#result").onclick=()=>{
- if(state.pieces.size<12){toast("Selesaikan puzzle dahulu.");return}
- if(state.final.size<3){toast("Jawab semua 3 soalan Aktiviti 03 dahulu.");return}
- state.done[2]=true;update();
- $("#finalScore").textContent=state.score;
- $("#stars").textContent=state.score>=50?"★★★★★":state.score>=40?"★★★★☆":state.score>=30?"★★★☆☆":"★★☆☆☆";
- $("#remark").textContent=state.score>=50?"Cemerlang! Anda menguasai teknik mozek serta unsur seni dan prinsip rekaan.":state.score>=40?"Bagus! Teruskan meneroka seni mozek.":"Teruskan latihan dan perhatikan karya dengan lebih teliti.";
- $("#resultModal").classList.add("show");
+const respData={
+  hidung:{title:'Hidung',text:'Udara masuk melalui hidung. Hidung membantu menapis, memanaskan dan melembapkan udara.'},
+  trakea:{title:'Trakea',text:'Trakea ialah salur udara yang membawa udara dari hidung menuju bronkus dan paru-paru.'},
+  paru:{title:'Paru-paru',text:'Paru-paru ialah organ utama pernafasan. Paru-paru mengembang ketika menarik nafas dan mengempis ketika menghembus nafas.'}
 };
-$("#close").onclick=()=>$("#resultModal").classList.remove("show");
-update();
+const digData={
+  ususKecil:{title:'Usus kecil',text:'Di usus kecil, nutrien daripada makanan diserap ke dalam badan. Bahan yang tidak diperlukan terus bergerak ke usus besar.'},
+  ususBesar:{title:'Usus besar',text:'Usus besar menyerap sebahagian besar air daripada bahan yang tidak diperlukan. Bahan tersebut menjadi semakin pejal dan membentuk tinja.'},
+  rektum:{title:'Rektum / dubur',text:'Tinja disimpan sementara di rektum sebelum disingkirkan daripada badan melalui dubur. Proses ini dipanggil penyahtinjaan.'}
+};
+
+function setRespInfo(key){
+  const d=respData[key]||respData.paru;
+  document.getElementById('respInfoTitle').textContent=d.title;
+  document.getElementById('respInfoText').textContent=d.text;
+}
+function setDigestInfo(key){
+  const d=digData[key]||digData.ususKecil;
+  document.getElementById('digestInfoTitle').textContent=d.title;
+  document.getElementById('digestInfoText').textContent=d.text;
+  document.querySelectorAll('#digestVisual .digest-organ').forEach(x=>x.classList.toggle('active',x.dataset.organ===key));
+}
+function breath(mode){
+  const active=mode==='active';
+  document.getElementById('rate').textContent=active?30:18;
+  document.getElementById('state').textContent=active?'Selepas aktiviti':'Rehat';
+  document.getElementById('airv').textContent=active?'Lebih tinggi':'Sederhana';
+  document.getElementById('breathbar').style.width=active?'82%':'48%';
+  breathingOn=true;
+  document.getElementById('respVisual').classList.add('breathing');
+  document.getElementById('breathToggle').textContent='⏸ Hentikan Animasi';
+}
+function toggleBreathing(){
+  breathingOn=!breathingOn;
+  document.getElementById('respVisual').classList.toggle('breathing',breathingOn);
+  document.getElementById('breathToggle').textContent=breathingOn?'⏸ Hentikan Animasi':'▶ Sambung Animasi';
+}
+function stopBreath(){ breathingOn=false; document.getElementById('respVisual').classList.remove('breathing'); document.getElementById('breathToggle').textContent='▶ Sambung Animasi'; }
+
+function digest(){
+  digestOn=true;
+  document.getElementById('digestVisual').classList.add('fecal-flow','nutrient-flow');
+  document.getElementById('digestToggle').textContent='⏸ Hentikan Animasi';
+  document.getElementById('digestPos').textContent='Usus kecil → usus besar';
+  document.getElementById('needed').textContent='Nutrien diserap';
+  document.getElementById('waste').textContent='Tinja bergerak';
+}
+function toggleDigest(){
+  digestOn=!digestOn;
+  document.getElementById('digestVisual').classList.toggle('fecal-flow',digestOn);
+  document.getElementById('digestVisual').classList.toggle('nutrient-flow',digestOn);
+  document.getElementById('digestToggle').textContent=digestOn?'⏸ Hentikan Animasi':'▶ Sambung Animasi';
+}
+function resetDigest(){ digest(); }
+
+function initDragLabels(){ return; }
+
+function quiz(){
+ const ans={q1:'a',q2:'b',q3:'a',q4:'b',q5:'a'};let score=0;
+ Object.keys(ans).forEach(q=>{const x=document.querySelector('input[name="'+q+'"]:checked');if(x&&x.value===ans[q])score++});
+ const r=document.getElementById('result');r.style.display='block';
+ r.textContent=`Pencapaian kamu: ${score}/5. `+(score===5?'Tahniah! Cemerlang! 🎉':score>=3?'Bagus! Cuba semak semula bahagian yang belum tepat.':'Teruskan belajar dan cuba lagi! 💪');
+}
+
+document.querySelectorAll('#respVisual .resp-hotspot').forEach(el=>el.addEventListener('click',()=>setRespInfo(el.dataset.organ)));
+document.querySelectorAll('#respInfo [data-organ]').forEach(btn=>btn.addEventListener('click',()=>setRespInfo(btn.dataset.organ)));
+document.querySelectorAll('#digestVisual .digest-organ').forEach(el=>el.addEventListener('click',()=>setDigestInfo(el.dataset.organ)));
+document.querySelectorAll('[data-digest-organ]').forEach(btn=>btn.addEventListener('click',()=>setDigestInfo(btn.dataset.digestOrgan)));
+
+setRespInfo('paru');
+setDigestInfo('ususKecil');
+breath('rest');
+digest();
+initDragLabels();
+
+if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  stopBreath();
+  toggleDigest();
+}
 </script>
 </body>
 </html>
