@@ -55,7 +55,7 @@ clip-path:polygon(50% 0,94% 22%,100% 68%,66% 100%,18% 88%,0 45%);opacity:.13}
 .know-card{position:relative;background:#fff;border:1px solid #e8ded3;border-radius:17px;padding:15px;min-height:150px;overflow:hidden}
 .know-card:after{content:"";position:absolute;right:-18px;bottom:-20px;width:58px;height:58px;transform:rotate(18deg);
 background:var(--tile,#f4c542);opacity:.17;clip-path:polygon(14% 0,100% 20%,82% 100%,0 72%)}
-.know-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#f4ecf7;font-size:20px;margin-bottom:9px}
+.know-icon{width:72px;height:52px;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:#f4ecf7;margin-bottom:10px;border:1px solid rgba(111,59,143,.12);box-shadow:0 4px 12px rgba(45,31,48,.08)}.know-icon img{width:100%;height:100%;display:block;object-fit:cover}
 .know-card:nth-child(2) .know-icon{background:#fff5d0}.know-card:nth-child(3) .know-icon{background:#e6f5ef}.know-card:nth-child(4) .know-icon{background:#fce9e5}
 .know-card h3{font-size:15px;margin:0 0 7px}.know-card p{font-size:12px;line-height:1.55;color:#68636a;margin:0}
 .know-card ul{padding-left:17px;margin:7px 0 0;color:#68636a;font-size:12px;line-height:1.6}
@@ -106,10 +106,6 @@ main{padding:20px 22px 55px}.mission{display:none}.mission.active{display:block}
   <div class="kicker">● JOM JADI SENIMAN MOZEK</div>
   <h1>Teknik <span>Mozek</span></h1>
   <p>Kenali teknik mozek, bina karya bunga daripada kepingan bahan dan temui unsur seni serta prinsip rekaan yang digunakan.</p>
-  <div class="score">
-    <div><div class="coin">⭐</div><div><b id="score">0</b> <small>/ 50 mata</small></div></div>
-    <div><div class="coin">✓</div><div><b id="done">0 / 3</b> <small>aktiviti selesai</small></div></div>
-  </div>
   <div class="tabs">
     <button class="tab active" data-m="1"><em>01</em> Kenal Teknik</button>
     <button class="tab" data-m="2"><em>02</em> Puzzle Mozek</button>
@@ -129,27 +125,27 @@ main{padding:20px 22px 55px}.mission{display:none}.mission.active{display:block}
 
   <div class="knowledge-grid">
     <article class="know-card" style="--tile:#7b3f98">
-      <div class="know-icon">🧩</div>
+      <div class="know-icon"><img src="icon-puzzle.jpg" alt="Kepingan jubin mozek"></div>
       <h3>Apakah Seni Mozek?</h3>
       <p>Mozek ialah karya seni yang dihasilkan dengan menyusun dan melekatkan <b>kepingan kecil bahan</b> untuk membentuk corak, imej atau hiasan.</p>
     </article>
 
     <article class="know-card" style="--tile:#f4c542">
-      <div class="know-icon">🎨</div>
+      <div class="know-icon"><img src="icon-teknik.jpg" alt="Teknik menyusun kepingan mozek"></div>
       <h3>Teknik Mozek</h3>
       <p>Kepingan dipilih mengikut warna, bentuk dan saiz, kemudian <b>disusun rapat</b> mengikut lakaran sebelum dilekatkan pada permukaan.</p>
       <ul><li>Susun mengikut reka bentuk</li><li>Gabung warna dan bentuk</li><li>Pastikan susunan kemas</li></ul>
     </article>
 
     <article class="know-card" style="--tile:#4fae91">
-      <div class="know-icon">🧱</div>
+      <div class="know-icon"><img src="icon-bahan.jpg" alt="Bahan jubin untuk mozek"></div>
       <h3>Bahan</h3>
       <p>Antara bahan yang sesuai digunakan:</p>
       <ul><li>Kertas warna / kertas majalah</li><li>Kepingan jubin atau seramik</li><li>Kaca berwarna</li><li>Bahan kitar semula yang sesuai</li></ul>
     </article>
 
     <article class="know-card" style="--tile:#e76f51">
-      <div class="know-icon">✂️</div>
+      <div class="know-icon"><img src="icon-alatan.jpg" alt="Alatan memotong jubin mozek"></div>
       <h3>Alatan</h3>
       <p>Alatan membantu memotong, menyusun dan melekatkan kepingan:</p>
       <ul><li>Gunting</li><li>Pembaris & pensel</li><li>Gam / berus gam</li><li>Bekas kecil untuk mengasingkan kepingan</li></ul>
@@ -276,7 +272,9 @@ function badSound(){tone(230,.14,"sawtooth")}
 $("#sound").onclick=()=>{soundOn=!soundOn;$("#sound").textContent=soundOn?"🔊 Bunyi ON":"🔇 Bunyi OFF";if(soundOn){tone(740,.1);toast("Bunyi dihidupkan.")}else toast("Bunyi dimatikan.")};
 
 function update(){
- $("#score").textContent=state.score;$("#done").textContent=state.done.filter(Boolean).length+" / 3";
+ const scoreEl=$("#score"), doneEl=$("#done");
+ if(scoreEl) scoreEl.textContent=state.score;
+ if(doneEl) doneEl.textContent=state.done.filter(Boolean).length+" / 3";
  $$(".tab").forEach((b,i)=>{b.classList.toggle("active",i===0);});
 }
 function add(n){state.score=Math.min(50,state.score+n);update()}
