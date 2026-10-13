@@ -1,10 +1,12 @@
-# Sains Tahun 4 — Manusia
-Topik: Pernafasan dan Penyahtinjaan
+# PSV Tahun 5 — Teknik Mozek
+Laman interaktif GitHub Pages tanpa library luaran.
 
-## Cara guna di GitHub Pages
-1. Buat repository baharu di GitHub.
-2. Upload `index.html`.
-3. Settings → Pages → Deploy from branch → pilih `main` dan folder `/root`.
-4. Simpan dan buka URL GitHub Pages.
+Markah:
+- Aktiviti 01: 10 mata
+- Aktiviti 02: 25 mata
+- Aktiviti 03: 15 mata
+- Jumlah: 50 mata
 
-Fail ini tidak memerlukan internet, library luar atau server.
+Fail:
+- index.html
+- mosaic-background.jpeg
